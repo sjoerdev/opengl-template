@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <!--main project settings-->
+    <OutputType>exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!--makes the output a single executable-->
+    <DebugType>embedded</DebugType>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <!--imgui-->
+    <PackageReference Include="Hexa.NET.ImGui" Version="1.0.4" />
+    <PackageReference Include="Hexa.NET.ImGuizmo" Version="1.0.4" />
+    <PackageReference Include="Hexa.NET.ImPlot" Version="1.0.4" />
+
+    <!--silk-->
+    <PackageReference Include="Silk.NET.Input" Version="2.22.0" />
+    <PackageReference Include="Silk.NET.Input.Extensions" Version="2.22.0" />
+    <PackageReference Include="Silk.NET.Maths" Version="2.22.0" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.22.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />
+
+  </ItemGroup>
+
+</Project>
