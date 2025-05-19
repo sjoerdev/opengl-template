@@ -1,18 +1,14 @@
-using System;
 using System.Numerics;
-using System.Collections.Generic;
-
 using Silk.NET.Input;
 using Silk.NET.Input.Extensions;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
-
 using Hexa.NET.ImGui;
 using Hexa.NET.ImGuizmo;
 using Hexa.NET.ImPlot;
-
-namespace Project;
+using System;
+using System.Collections.Generic;
 
 public unsafe class ImGuiController
 {
@@ -50,7 +46,7 @@ public unsafe class ImGuiController
         this.input = input;
         width = view.Size.X;
         height = view.Size.Y;
-        keyboard = this.input.Keyboards[0];
+        keyboard = input.Keyboards[0];
         view.Resize += WindowResized;
         keyboard.KeyChar += OnKeyChar;
 
@@ -72,13 +68,17 @@ public unsafe class ImGuiController
         ImGui.StyleColorsDark();
     }
 
-    public void Render(float delta)
+    public void Update(float deltaTime)
     {
         UpdateContexts();
-        SetPerFrameImGuiData(delta);
+        SetPerFrameImGuiData(deltaTime);
         UpdateImGuiInput();
         ImGui.NewFrame();
         ImGuizmo.BeginFrame();
+    }
+
+    public void Render()
+    {
         ImGui.Render();
         ImGui.EndFrame();
         RenderImDrawData(ImGui.GetDrawData());

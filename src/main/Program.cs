@@ -1,13 +1,14 @@
 using System.Numerics;
 using System.Drawing;
-
+using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.Windowing;
 using Silk.NET.OpenGL;
-using Silk.NET.Input;
+using Hexa.NET.ImGui;
 
 namespace Project;
 
-static unsafe class Program
+public static class Program
 {
     public static GL opengl;
     public static IWindow window;
@@ -17,33 +18,42 @@ static unsafe class Program
     static void Main()
     {
         var options = WindowOptions.Default;
-        options.Size = new(1280, 720);
-        options.Title = "Program";
+        options.Size = new Vector2D<int>(1280, 720);
+        options.Title = "Window";
         window = Window.Create(options);
-        window.Load += Load;
-        window.Render += (delta) => Render((float)delta);
-        window.Resize += (res) => Resize((Vector2)res);
+        window.Load += StartWindow;
+        window.Update += UpdateWindow;
+        window.Render += RenderWindow;
+        window.FramebufferResize += ResizeWindow;
         window.Run();
         window.Dispose();
     }
 
-    static void Load()
+    static void StartWindow()
     {
         opengl = GL.GetApi(window);
         input = window.CreateInput();
         igcontroller = new ImGuiController(opengl, window, input);
+    }
+
+    static void UpdateWindow(double deltaTime)
+    {
+        igcontroller.Update((float)deltaTime);
+    }
+
+    static void RenderWindow(double deltaTime)
+    {
         opengl.Enable(EnableCap.DepthTest);
         opengl.ClearColor(Color.Black);
-    }
-
-    static void Render(float delta)
-    {
         opengl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        igcontroller.Render(delta);
+
+        ImGui.ShowDemoWindow();
+
+        igcontroller.Render();
     }
 
-    static void Resize(Vector2 res)
+    static void ResizeWindow(Vector2D<int> size)
     {
-        opengl.Viewport(new Size((int)res.X, (int)res.Y));
+        opengl.Viewport(size);
     }
 }
